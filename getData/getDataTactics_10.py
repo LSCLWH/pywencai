@@ -4,7 +4,7 @@ import archive_data as arc
 import mysql.connector
 import pandas as pd
 import time
-import yaml
+# import yaml
 
 def data_write(res, date):
     # 转写数据进入数据表
@@ -112,30 +112,40 @@ def data_write(res, date):
         results = arc.select_data(query)
         for result in results:
             insertshuju = """INSERT INTO `shuju`.`10_tactics` (`stock_code`, `stock_abbreviation`, `stock_latest_price`, `stock_latest_rise_and _fall`, `shrinkage`, `average`, `turnover_rate`, `volume_ratio`, `10_angle`, `20_angle`, `30_angle`, `60_angle`, `250_angle`, `macd`, `amplitude`, `total_market_value`, `circulating_market_value`, `general_capital`, `stock_circulation`, `circulation_ratio`, `shareholding_ratio_10`, `number_of_holdings`, `number_of_shareholders`, `dde`, `profession`, `market_code`, `code`, `trading_day`, `trading_day_1`, `trading_day_2`, `trading_day_3`, `trading_day_4`, `trading_day_5`, `trading_day_6`, `trading_day_7`, `trading_day_8`, `trading_day_9`, `trading_day_10`, `trading_day_11`, `trading_day_12`, `trading_day_13`, `trading_day_14`, `trading_day_15`, `trading_day_16`, `trading_day_17`, `trading_day_18`, `trading_day_19`, `trading_day_20`, `trading_day_21`, `trading_day_22`, `trading_day_23`, `trading_day_24`, `trading_day_25`, `trading_day_26`, `trading_day_27`, `trading_day_28`, `trading_day_29`, `trading_day_30`, `trading_day_40`, `trading_day_50`, `trading_day_60`, `trading_day_80`) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);"""
-            arc.add(insertshuju, result)
+            #arc.add(insertshuju, result)
+            # print(row)
+            cursor.execute(insertshuju, result)
+            # 提交事务
+            cnx.commit()
     except:
         return False
     finally:
+        # 修改获取数据标记 改标识
+        update_sql = "UPDATE trading_day_date SET is_10 = 1 WHERE trade_date = %s"
+        cursor.execute(update_sql, (date,))
+        # 提交事务
+        cnx.commit()
+        # arc.up_data(update_sql, (date,))
         # 关闭游标和连接
         cursor.close()
         cnx.close()
     return True
 
 
-# 读取配置文件 改
-with open('tactics.yaml', 'r',encoding='utf-8') as f:
-    config = yaml.safe_load(f)
+# # 读取配置文件 改
+# with open('tactics.yaml', 'r',encoding='utf-8') as f:
+#     config = yaml.safe_load(f)
 
-# 获取配置信息  改
-tactics_10 = config['tactics_10']
+# # 获取配置信息  改
+# tactics_10 = config['tactics_10']
 #该标识
-query_sql = "SELECT trade_date FROM trading_day_date WHERE is_10 = 0 AND trade_date BETWEEN '2020-01-01' AND '2023-12-31'  ORDER BY trade_date"
+query_sql = "SELECT trade_date FROM trading_day_date WHERE is_10 = 0 AND trade_date BETWEEN '2000-01-01' AND '2023-12-31'  ORDER BY trade_date"
 get_data_dates = arc.select_data(query_sql)
 # print(get_data_date)
 for get_data_date in get_data_dates:
     # 记录开始时间
     start_time = time.time()
-    var = (get_data_date[0].strftime("%Y-%m-%d")+ tactics_10)
+    var = (get_data_date[0].strftime("%Y-%m-%d")+ "缩量回踩10日线，换手率，量比，10日线角度，，20日线角度，30日线角度，60日线角度，250日线角度，macd，振幅，总市值，流通市值，总股本，流通股本，流通比例，十大股东持股比例，户均持股数，股东户数，dde大单净量")
     res = pywencai.get(query=var,loop=True,)
     # 判断是否dataframe对象
     is_dataframe = isinstance(res, pd.DataFrame)
@@ -143,10 +153,7 @@ for get_data_date in get_data_dates:
     if res is not None and is_dataframe == True:
         # 调用写入数据库函数
         is_wdite = data_write(res, get_data_date[0])
-        # 修改获取数据标记 改标识
-        update_sql = "UPDATE trading_day_date SET is_10 = 1 WHERE trade_date = %s"
-        arc.up_data(update_sql, (get_data_date[0],))
-        print(var + "获取成功，数据：" + str(res.shape[0]) + "条")
+        print(get_data_date[0].strftime("%Y-%m-%d") + "获取成功，数据：" + str(res.shape[0]) + "条")
         # 记录结束时间
         end_time = time.time()
         # 计算并打印运行时间
@@ -154,9 +161,9 @@ for get_data_date in get_data_dates:
         # 如果运行时间小于10
         if run_time < 5:
             time.sleep(5)
-            print("暂停5秒")
+            print("获取成功时间小于5秒：暂停5秒")
         print(f"程序运行时间为: {run_time:.6f} 秒")
     else:
         # 获取失败输出信息
         time.sleep(2)
-        print(var + "获取失败，暂停2秒")
+        print(get_data_date[0].strftime("%Y-%m-%d")  + "获取失败，暂停2秒")

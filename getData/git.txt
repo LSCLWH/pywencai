@@ -1,0 +1,64 @@
+# 配置用户名
+git config --global user.name "username"
+# 配置密码
+git config --global user.password "password"
+# 配置用户邮箱
+git config --global user.email "email"
+# 保存认证信息
+git config --global credential.helper store
+常用命令
+# 初始化一个仓库
+git init
+# 从git站点  克隆仓库   配置认证信息之后不需要每次输用户名密码
+git clone http://github.com/xxxxxxxxx
+# 添加文件  新增文件或者修改文件之后，加入待提交文件中
+git add readme.txt *.py
+# 提交修改  需要在编辑器中输入注释信息，个人感觉很不好用
+git commit 
+# 提交修改与注释
+git commit -am "test commit a file update"
+# 推送
+git push
+# 拉取最新代码
+git pull
+
+
+# 克隆
+git fetch sitename
+# 查看状态
+git status
+
+
+# 新建分支 1
+git branch branch_name
+# 新建分支2 
+git checkout -b branch_name
+# 获取本地分支列表
+git branch
+# 切换分支
+git checkout branch_name
+# 合并分支
+git merge branch_name
+# 删除分支
+git branch -d branche_name
+
+
+# 查看提交日志
+git log
+# 生成补丁文件
+git format-patch master
+# 添加补丁文件
+git apply 0001-patch-file-name.patch
+
+
+# 打标签
+git tag -a tagname -m "tag description"
+# 查看标签
+git tag
+# 删除标签
+git tag -d tagname
+
+
+# 万能
+git --help
+git branch --help  等等等等
