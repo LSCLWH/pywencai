@@ -137,7 +137,7 @@ def data_write(res, date):
 
 # date = '2020-5-8'
 # data_write(res,date)
-query_sql = "SELECT trade_date FROM trading_day_date WHERE is_5 = 0 AND trade_date BETWEEN '1997-06-19' AND '2023-12-31' ORDER BY trade_date"
+query_sql = "SELECT trade_date FROM trading_day_date WHERE is_5 = 0 AND trade_date BETWEEN '1990-12-19' AND '2023-12-31' ORDER BY trade_date"
 get_data_dates = arc.select_data(query_sql)
 # print(get_data_date)
 for get_data_date in get_data_dates:

@@ -82,3 +82,26 @@ def select_datas(data_query,data):
         # 关闭游标和连接
         cursor.close()
         cnx.close()
+
+def add(add_sql,data):
+    db_config = {
+        "host": "127.0.0.1",
+        "user": "root",
+        "password": "root",
+        "database": "shuju",
+    }
+
+    # 建立数据库连接
+    cnx = mysql.connector.connect(**db_config)
+    # 创建游标对象
+    cursor = cnx.cursor()
+    try:
+        cursor.execute(add_sql, data)
+        rows = cnx.commit()
+        return rows
+    except Exception as e:
+        print('执行新增失败', e)
+        cnx.rollback()  # 回滚
+    finally:
+        cursor.close()
+        cnx.close()
