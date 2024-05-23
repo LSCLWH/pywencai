@@ -4,7 +4,8 @@ import archive_data as arc
 import mysql.connector
 import pandas as pd
 import time
-import yaml
+import re  
+# import yaml
 
 def data_write(res, date):
     # 转写数据进入数据表
@@ -56,21 +57,8 @@ def data_write(res, date):
     trading_day_28 = date_datas[27][0].strftime("%Y-%m-%d")
     trading_day_29 = date_datas[28][0].strftime("%Y-%m-%d")
     trading_day_30 = date_datas[29][0].strftime("%Y-%m-%d")
-    trading_day_40 = date_datas[39][0].strftime("%Y-%m-%d")
-    trading_day_50 = date_datas[49][0].strftime("%Y-%m-%d")
-    trading_day_60 = date_datas[59][0].strftime("%Y-%m-%d")
-    trading_day_80 = date_datas[79][0].strftime("%Y-%m-%d")
-    trading_day_100 = date_datas[99][0].strftime("%Y-%m-%d")
-    trading_day_120 = date_datas[119][0].strftime("%Y-%m-%d")
-    trading_day_150 = date_datas[149][0].strftime("%Y-%m-%d")
-    trading_day_180 = date_datas[179][0].strftime("%Y-%m-%d")
-    trading_day_200 = date_datas[199][0].strftime("%Y-%m-%d")
-    trading_day_240 = date_datas[239][0].strftime("%Y-%m-%d")
-    trading_day_300 = date_datas[299][0].strftime("%Y-%m-%d")
-    trading_day_460 = date_datas[459][0].strftime("%Y-%m-%d")
-    trading_day_600 = date_datas[599][0].strftime("%Y-%m-%d")
-    trading_day_840 = date_datas[839][0].strftime("%Y-%m-%d")
-    trading_day_960 = date_datas[959][0].strftime("%Y-%m-%d")
+  
+
     res["trading_day"] = date
     res["trading_day_1"] = trading_day_1
     res["trading_day_2"] = trading_day_2
@@ -103,68 +91,166 @@ def data_write(res, date):
     res["trading_day_29"] = trading_day_29
     res["trading_day_30"] = trading_day_30
     res["trading_day_40"] = trading_day_40
-    res["trading_day_50"] = trading_day_50
-    res["trading_day_60"] = trading_day_60
-    res["trading_day_80"] = trading_day_80
-    res["trading_day_100"] = trading_day_100
-    res["trading_day_120"] = trading_day_120
-    res["trading_day_150"] = trading_day_150
-    res["trading_day_180"] = trading_day_180
-    res["trading_day_200"] = trading_day_200
-    res["trading_day_240"] = trading_day_240
-    res["trading_day_300"] = trading_day_300
-    res["trading_day_460"] = trading_day_460
-    res["trading_day_600"] = trading_day_600
-    res["trading_day_840"] = trading_day_840
-    res["trading_day_960"] = trading_day_960
 
+    res["trading_day_40"] = ''
+    # trading_day_60 = date_datas[59][0].strftime("%Y-%m-%d")
+    if len(date_datas) > 39:
+        trading_day_40 = date_datas[39][0].strftime("%Y-%m-%d")
+        res["trading_day_40"] = trading_day_40
+
+    res["trading_day_50"] = ''
+    # trading_day_60 = date_datas[59][0].strftime("%Y-%m-%d")
+    if len(date_datas) > 49:
+        trading_day_50 = date_datas[49][0].strftime("%Y-%m-%d")
+        res["trading_day_50"] = trading_day_50
+
+
+    res["trading_day_60"] = ''
+    # trading_day_60 = date_datas[59][0].strftime("%Y-%m-%d")
+    if len(date_datas) > 59:
+        trading_day_60 = date_datas[59][0].strftime("%Y-%m-%d")
+        res["trading_day_60"] = trading_day_60
+
+    res["trading_day_80"] = ''
+    # trading_day_80 = date_datas[79][0].strftime("%Y-%m-%d")
+    if len(date_datas) > 79:
+        trading_day_80 = date_datas[79][0].strftime("%Y-%m-%d")
+        res["trading_day_80"] = trading_day_80
+
+    res["trading_day_100"] = ''
+    # trading_day_100 = date_datas[99][0].strftime("%Y-%m-%d")
+    if len(date_datas) > 99:
+        trading_day_100 = date_datas[99][0].strftime("%Y-%m-%d")
+        res["trading_day_100"] = trading_day_100
+
+    res["trading_day_120"] = ''
+    # trading_day_120 = date_datas[119][0].strftime("%Y-%m-%d")
+    if len(date_datas) > 119:
+        trading_day_120 = date_datas[119][0].strftime("%Y-%m-%d")
+        res["trading_day_120"] = trading_day_120
+
+    res["trading_day_150"] = ''
+    # trading_day_150 = date_datas[149][0].strftime("%Y-%m-%d")
+    if len(date_datas) > 149:
+        trading_day_150 = date_datas[149][0].strftime("%Y-%m-%d")
+        res["trading_day_150"] = trading_day_150
+
+    res["trading_day_180"] = ''
+    # trading_day_180 = date_datas[179][0].strftime("%Y-%m-%d")
+    if len(date_datas) > 179:
+        trading_day_180 = date_datas[179][0].strftime("%Y-%m-%d")
+        res["trading_day_180"] = trading_day_180
+
+    res["trading_day_200"] = ''
+    # trading_day_200 = date_datas[199][0].strftime("%Y-%m-%d")
+    if len(date_datas) > 199:
+        trading_day_200 = date_datas[199][0].strftime("%Y-%m-%d")
+        res["trading_day_200"] = trading_day_200
+
+    res["trading_day_240"] = ''
+    # trading_day_240 = date_datas[239][0].strftime("%Y-%m-%d")
+    if len(date_datas) > 239:
+        trading_day_240 = date_datas[239][0].strftime("%Y-%m-%d")
+        res["trading_day_240"] = trading_day_240
+
+    res["trading_day_300"] = ''
+    # trading_day_300 = date_datas[299][0].strftime("%Y-%m-%d")
+    if len(date_datas) > 299:
+        trading_day_300 = date_datas[299][0].strftime("%Y-%m-%d")
+        res["trading_day_300"] = trading_day_300
+
+    res["trading_day_460"] = ''
+    # trading_day_460 = date_datas[459][0].strftime("%Y-%m-%d")
+    if len(date_datas) >459:
+        trading_day_460 = date_datas[459][0].strftime("%Y-%m-%d")
+        res["trading_day_460"] = trading_day_460
+
+    res["trading_day_600"] = ''
+    # trading_day_600 = date_datas[599][0].strftime("%Y-%m-%d")
+    if len(date_datas) > 599:
+        trading_day_600 = date_datas[599][0].strftime("%Y-%m-%d")
+        res["trading_day_600"] = trading_day_600
+
+    res["trading_day_840"] = ''
+    # trading_day_840 = date_datas[839][0].strftime("%Y-%m-%d")
+    if len(date_datas) > 839:
+        trading_day_840 = date_datas[839][0].strftime("%Y-%m-%d")
+        res["trading_day_840"] = trading_day_840
+
+    res["trading_day_960"] = ''
+    # trading_day_960 = date_datas[959][0].strftime("%Y-%m-%d")
+    if len(date_datas) > 960:
+        trading_day_960 = date_datas[959][0].strftime("%Y-%m-%d")
+        res["trading_day_960"] = trading_day_960
+
+    
     # # 批量写入临时表
     engine = create_engine(
         "mysql+pymysql://root:root@localhost:3306/shuju?charset=utf8"
     )
-    res.to_sql(name="20_tactics1", con=engine, if_exists="replace", index=False)
+    res.to_sql(name="20_tactics1", con=engine, if_exists="append", index=False)
 
     try:
-        # 执行查询 改表名
-        query = "SELECT * from 20_tactics1 "
-        # 获取查询结果
-        results = arc.select_data(query)
-        for result in results:
-            print(result)
-            insertshuju = """INSERT INTO `shuju`.`20_tactics` (`stock_code`, `stock_abbreviation`, `stock_latest_price`, `stock_latest_rise_and _fall`, `average`, `turnover_rate`, `volume_ratio`, `10_angle`, `20_angle`, `30_angle`, `60_angle`, `250_angle`, `macd`, `amplitude`, `total_market_value`, `circulating_market_value`, `general_capital`, `stock_circulation`, `circulation_ratio`, `shareholding_ratio_10`, `number_of_holdings`, `number_of_shareholders`, `dde`, `profession`, `quantity|_total`, `market_code`, `code`, `trading_day`, `trading_day_1`, `trading_day_2`, `trading_day_3`, `trading_day_4`, `trading_day_5`, `trading_day_6`, `trading_day_7`, `trading_day_8`, `trading_day_9`, `trading_day_10`, `trading_day_11`, `trading_day_12`, `trading_day_13`, `trading_day_14`, `trading_day_15`, `trading_day_16`, `trading_day_17`, `trading_day_18`, `trading_day_19`, `trading_day_20`, `trading_day_21`, `trading_day_22`, `trading_day_23`, `trading_day_24`, `trading_day_25`, `trading_day_26`, `trading_day_27`, `trading_day_28`, `trading_day_29`, `trading_day_30`, `trading_day_40`, `trading_day_50`, `trading_day_60`, `trading_day_80`,`trading_day_100`, `trading_day_120`, `trading_day_150`, `trading_day_180`, `trading_day_200`, `trading_day_240`, `trading_day_300`, `trading_day_460`, `trading_day_600`, `trading_day_840`, `trading_day_960`) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);"""
-            arc.add(insertshuju, result)
+        # # 执行查询 改表名
+        # query = "SELECT * from 20_tactics1 "
+        # # 获取查询结果
+        # # cursor.execute(query)
+        # # 获取查询结果
+        # results=arc.select_data(query)
+        # for result in results:
+        #     insertshuju = """INSERT INTO `shuju`.`20_tactics` (`stock_code`, `stock_abbreviation`, `stock_latest_price`, `stock_latest_rise_and _fall`, `average`, `turnover_rate`, `volume_ratio`, `10_angle`, `20_angle`, `30_angle`, `60_angle`, `250_angle`, `macd`, `amplitude`, `total_market_value`, `circulating_market_value`, `general_capital`, `stock_circulation`, `circulation_ratio`, `shareholding_ratio_10`, `number_of_holdings`, `number_of_shareholders`, `dde`, `profession`, `quantity_total`, `market_code`, `code`, `trading_day`, `trading_day_1`, `trading_day_2`, `trading_day_3`, `trading_day_4`, `trading_day_5`, `trading_day_6`, `trading_day_7`, `trading_day_8`, `trading_day_9`, `trading_day_10`, `trading_day_11`, `trading_day_12`, `trading_day_13`, `trading_day_14`, `trading_day_15`, `trading_day_16`, `trading_day_17`, `trading_day_18`, `trading_day_19`, `trading_day_20`, `trading_day_21`, `trading_day_22`, `trading_day_23`, `trading_day_24`, `trading_day_25`, `trading_day_26`, `trading_day_27`, `trading_day_28`, `trading_day_29`, `trading_day_30`, `trading_day_40`, `trading_day_50`, `trading_day_60`, `trading_day_80`,`trading_day_100`, `trading_day_120`, `trading_day_150`, `trading_day_180`, `trading_day_200`, `trading_day_240`, `trading_day_300`, `trading_day_460`, `trading_day_600`, `trading_day_840`, `trading_day_960`) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);"""
+        #     cursor.execute(insertshuju, result)
+        #     # 提交事务
+        #     cnx.commit()
+
+        # 修改获取数据标记 改标识 执行成功修改标记已获取
+        update_sql = "UPDATE trading_day_date SET is_20 = 1 WHERE trade_date = %s"
+        cursor.execute(update_sql, (get_data_date[0],))
+        # 提交事务
+        cnx.commit()
+    except Exception as e:
+        print('执行新增失败：', e)
+        cnx.rollback()  # 回滚
+        # 修改获取数据标记 改标识 0未执行，1执行成功，2执行失败 修改标记获取失败2
+        update_sql = "UPDATE trading_day_date SET is_20 = 2 WHERE trade_date = %s"
+        cursor.execute(update_sql, (get_data_date[0],))
+        # 提交事务
+        cnx.commit()
     finally:
+        
         # 关闭游标和连接
         cursor.close()
         cnx.close()
     return True
 
 
-# 读取配置文件 改
-with open('tactics.yaml', 'r',encoding='utf-8') as f:
-    config = yaml.safe_load(f)
+# # 读取配置文件 改
+# with open('tactics.yaml', 'r',encoding='utf-8') as f:
+#     config = yaml.safe_load(f)
 
-# 获取配置信息  改
-tactics_20 = config['tactics_20']
-#改标识
-query_sql = "SELECT trade_date FROM trading_day_date WHERE is_20 = 0 AND trade_date BETWEEN '2020-01-01' AND '2023-12-31'  ORDER BY trade_date"
+# # 获取配置信息  改
+# tactics_20 = config['tactics_20']
+#改标识 
+query_sql = "SELECT trade_date FROM trading_day_date WHERE is_20 = 0 AND trade_date BETWEEN '2000-01-01' AND '2023-12-31'  ORDER BY trade_date"
+# query_sql = "SELECT trade_date FROM error_date"
 get_data_dates = arc.select_data(query_sql)
 # print(get_data_date)
 for get_data_date in get_data_dates:
     # 记录开始时间
     start_time = time.time()
-    var = (get_data_date[0].strftime("%Y-%m-%d")+ tactics_20)
+    var = (get_data_date[0].strftime("%Y-%m-%d")+ '突破20日线，换手率，量比，10日线角度，，20日线角度，30日线角度，60日线角度，250日线角度，macd，振幅，总市值，流通市值，总股本，流通股本，流通比例，十大股东持股比例，户均持股数，股东户数，dde大单净量')
     res = pywencai.get(query=var,loop=True,)
     # 判断是否dataframe对象
     is_dataframe = isinstance(res, pd.DataFrame)
     # 非空且为dataframe对象
     if res is not None and is_dataframe == True:
+        # 使用正则表达式替换列名中的日期标记（包括方括号）  
+        new_columns = [re.sub(r'\[\d{8}\]', '', col) for col in res.columns]  
+        # 将列名重新应用到DataFrame上  
+        res.columns = new_columns  
         # 调用写入数据库函数
         is_wdite = data_write(res, get_data_date[0])
-        # 修改获取数据标记 改标识
-        update_sql = "UPDATE trading_day_date SET is_20 = 1 WHERE trade_date = %s"
-        arc.up_data(update_sql, (get_data_date[0],))
-        print(var + "获取成功，数据：" + str(res.shape[0]) + "条")
+        # print(get_data_date[0].strftime("%Y-%m-%d") + "获取成功，数据：" + str(res.shape[0]) + "条")
         # 记录结束时间
         end_time = time.time()
         # 计算并打印运行时间
@@ -172,8 +258,8 @@ for get_data_date in get_data_dates:
         # 如果运行时间小于10
         if run_time < 5:
             time.sleep(5)
-            print("暂停5秒")
-        print(f"程序运行时间为: {run_time:.6f} 秒")
+            # print("暂停5秒")
+        print(get_data_date[0].strftime("%Y-%m-%d") + "获取成功，数据：" + str(res.shape[0]) + "条"+f"程序运行时间为: {run_time:.6f} 秒")
     else:
         # 获取失败输出信息
         time.sleep(2)

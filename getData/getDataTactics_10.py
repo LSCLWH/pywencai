@@ -153,7 +153,7 @@ for get_data_date in get_data_dates:
     if res is not None and is_dataframe == True:
         # 调用写入数据库函数
         is_wdite = data_write(res, get_data_date[0])
-        print(get_data_date[0].strftime("%Y-%m-%d") + "获取成功，数据：" + str(res.shape[0]) + "条")
+        print(get_data_date[0].strftime("%Y-%m-%d") + "-------获取成功，数据：" + str(res.shape[0]) + "条")
         # 记录结束时间
         end_time = time.time()
         # 计算并打印运行时间
@@ -161,9 +161,11 @@ for get_data_date in get_data_dates:
         # 如果运行时间小于10
         if run_time < 5:
             time.sleep(5)
-            print("获取成功时间小于5秒：暂停5秒")
+            print(get_data_date[0].strftime("%Y-%m-%d") + "-------获取成功时间小于5秒：暂停5秒")
         print(f"程序运行时间为: {run_time:.6f} 秒")
+        print()
     else:
         # 获取失败输出信息
         time.sleep(2)
-        print(get_data_date[0].strftime("%Y-%m-%d")  + "获取失败，暂停2秒")
+        print(get_data_date[0].strftime("%Y-%m-%d")  + "-------获取失败，暂停2秒")
+        print()
