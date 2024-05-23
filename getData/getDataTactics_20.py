@@ -90,7 +90,6 @@ def data_write(res, date):
     res["trading_day_28"] = trading_day_28
     res["trading_day_29"] = trading_day_29
     res["trading_day_30"] = trading_day_30
-    res["trading_day_40"] = trading_day_40
 
     res["trading_day_40"] = ''
     # trading_day_60 = date_datas[59][0].strftime("%Y-%m-%d")
