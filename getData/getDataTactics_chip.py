@@ -169,10 +169,10 @@ def data_write(res, date):
     engine = create_engine(
         "mysql+pymysql://root:root@localhost:3306/shuju?charset=utf8"
     )
-    res.to_sql(name="tactics_overlining_all_1", con=engine, if_exists="append", index=False)
+    res.to_sql(name="tactics_chip_1", con=engine, if_exists="append", index=False)
 
     try:
-        update_sql = "UPDATE trading_day_date SET is_tactics_overlining_all = 1 WHERE trade_date = %s"
+        update_sql = "UPDATE trading_day_date SET is_tactics_chip = 1 WHERE trade_date = %s"
         cursor.execute(update_sql, (get_data_date[0],))
         # 提交事务
         cnx.commit()
@@ -184,21 +184,13 @@ def data_write(res, date):
         cnx.close()
     return True
 
-
-# # 读取配置文件 改
-# with open('tactics.yaml', 'r',encoding='utf-8') as f:
-#     config = yaml.safe_load(f)
-
-# # 获取配置信息  改
-# tactics_overlining_all = config['tactics_overlining_all']
-#该标识
-query_sql = "SELECT trade_date FROM trading_day_date WHERE is_tactics_overlining_all = 0 AND trade_date BETWEEN '2000-01-01' AND '2023-12-31'  ORDER BY trade_date"
+query_sql = "SELECT trade_date FROM trading_day_date WHERE is_tactics_chip = 0 AND trade_date BETWEEN '2000-01-01' AND '2023-12-31'  ORDER BY trade_date"
 get_data_dates = arc.select_data(query_sql)
 # print(get_data_date)
 for get_data_date in get_data_dates:
     # 记录开始时间
     start_time = time.time()
-    var = (get_data_date[0].strftime("%Y-%m-%d")+ '长上影线，换手率，量比，5日线角度,10日线角度，20日线角度，30日线角度，60日线角度，250日线角度，macd，振幅，总市值，流通市值，总股本，流通股本，流通比例，十大股东持股比例，户均持股数，股东户数，dde大单净量')
+    var = (get_data_date[0].strftime("%Y-%m-%d")+ '中证500，筹码集中度90小于12%，收盘价大于20均线，市值从小到大排名，换手率，量比，10日线角度，，20日线角度，30日线角度，60日线角度，250日线角度，macd，振幅，总股本，流通股本，流通比例，十大股东持股比例，户均持股数，股东户数，dde大单净量')
     res = pywencai.get(query=var,loop=True,)
     # 判断是否dataframe对象
     is_dataframe = isinstance(res, pd.DataFrame)

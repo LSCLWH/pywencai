@@ -91,92 +91,92 @@ def data_write(res, date):
     res["trading_day_29"] = trading_day_29
     res["trading_day_30"] = trading_day_30
 
-    res["trading_day_40"] = ''
+    res["trading_day_40"] = None
     # trading_day_60 = date_datas[59][0].strftime("%Y-%m-%d")
     if len(date_datas) > 39:
         trading_day_40 = date_datas[39][0].strftime("%Y-%m-%d")
         res["trading_day_40"] = trading_day_40
 
-    res["trading_day_50"] = ''
+    res["trading_day_50"] = None
     # trading_day_60 = date_datas[59][0].strftime("%Y-%m-%d")
     if len(date_datas) > 49:
         trading_day_50 = date_datas[49][0].strftime("%Y-%m-%d")
         res["trading_day_50"] = trading_day_50
 
 
-    res["trading_day_60"] = ''
+    res["trading_day_60"] = None
     # trading_day_60 = date_datas[59][0].strftime("%Y-%m-%d")
     if len(date_datas) > 59:
         trading_day_60 = date_datas[59][0].strftime("%Y-%m-%d")
         res["trading_day_60"] = trading_day_60
 
-    res["trading_day_80"] = ''
+    res["trading_day_80"] = None
     # trading_day_80 = date_datas[79][0].strftime("%Y-%m-%d")
     if len(date_datas) > 79:
         trading_day_80 = date_datas[79][0].strftime("%Y-%m-%d")
         res["trading_day_80"] = trading_day_80
 
-    res["trading_day_100"] = ''
+    res["trading_day_100"] = None
     # trading_day_100 = date_datas[99][0].strftime("%Y-%m-%d")
     if len(date_datas) > 99:
         trading_day_100 = date_datas[99][0].strftime("%Y-%m-%d")
         res["trading_day_100"] = trading_day_100
 
-    res["trading_day_120"] = ''
+    res["trading_day_120"] = None
     # trading_day_120 = date_datas[119][0].strftime("%Y-%m-%d")
     if len(date_datas) > 119:
         trading_day_120 = date_datas[119][0].strftime("%Y-%m-%d")
         res["trading_day_120"] = trading_day_120
 
-    res["trading_day_150"] = ''
+    res["trading_day_150"] = None
     # trading_day_150 = date_datas[149][0].strftime("%Y-%m-%d")
     if len(date_datas) > 149:
         trading_day_150 = date_datas[149][0].strftime("%Y-%m-%d")
         res["trading_day_150"] = trading_day_150
 
-    res["trading_day_180"] = ''
+    res["trading_day_180"] = None
     # trading_day_180 = date_datas[179][0].strftime("%Y-%m-%d")
     if len(date_datas) > 179:
         trading_day_180 = date_datas[179][0].strftime("%Y-%m-%d")
         res["trading_day_180"] = trading_day_180
 
-    res["trading_day_200"] = ''
+    res["trading_day_200"] = None
     # trading_day_200 = date_datas[199][0].strftime("%Y-%m-%d")
     if len(date_datas) > 199:
         trading_day_200 = date_datas[199][0].strftime("%Y-%m-%d")
         res["trading_day_200"] = trading_day_200
 
-    res["trading_day_240"] = ''
+    res["trading_day_240"] = None
     # trading_day_240 = date_datas[239][0].strftime("%Y-%m-%d")
     if len(date_datas) > 239:
         trading_day_240 = date_datas[239][0].strftime("%Y-%m-%d")
         res["trading_day_240"] = trading_day_240
 
-    res["trading_day_300"] = ''
+    res["trading_day_300"] = None
     # trading_day_300 = date_datas[299][0].strftime("%Y-%m-%d")
     if len(date_datas) > 299:
         trading_day_300 = date_datas[299][0].strftime("%Y-%m-%d")
         res["trading_day_300"] = trading_day_300
 
-    res["trading_day_460"] = ''
+    res["trading_day_460"] = None
     # trading_day_460 = date_datas[459][0].strftime("%Y-%m-%d")
     if len(date_datas) >459:
         trading_day_460 = date_datas[459][0].strftime("%Y-%m-%d")
         res["trading_day_460"] = trading_day_460
 
-    res["trading_day_600"] = ''
+    res["trading_day_600"] = None
     # trading_day_600 = date_datas[599][0].strftime("%Y-%m-%d")
     if len(date_datas) > 599:
         trading_day_600 = date_datas[599][0].strftime("%Y-%m-%d")
         res["trading_day_600"] = trading_day_600
 
-    res["trading_day_840"] = ''
+    res["trading_day_840"] = None
     # trading_day_840 = date_datas[839][0].strftime("%Y-%m-%d")
     if len(date_datas) > 839:
         trading_day_840 = date_datas[839][0].strftime("%Y-%m-%d")
         res["trading_day_840"] = trading_day_840
 
-    res["trading_day_960"] = ''
+    res["trading_day_960"] = None
     # trading_day_960 = date_datas[959][0].strftime("%Y-%m-%d")
     if len(date_datas) > 960:
         trading_day_960 = date_datas[959][0].strftime("%Y-%m-%d")
@@ -187,7 +187,7 @@ def data_write(res, date):
     engine = create_engine(
         "mysql+pymysql://root:root@localhost:3306/shuju?charset=utf8"
     )
-    res.to_sql(name="20_tactics1", con=engine, if_exists="append", index=False)
+    res.to_sql(name="20_tactics2", con=engine, if_exists="append", index=False)
 
     try:
         # # 执行查询 改表名
@@ -230,7 +230,7 @@ def data_write(res, date):
 # # 获取配置信息  改
 # tactics_20 = config['tactics_20']
 #改标识 
-query_sql = "SELECT trade_date FROM trading_day_date WHERE is_20 = 0 AND trade_date BETWEEN '2000-01-01' AND '2023-12-31'  ORDER BY trade_date"
+query_sql = "SELECT * FROM sheet1"
 # query_sql = "SELECT trade_date FROM error_date"
 get_data_dates = arc.select_data(query_sql)
 # print(get_data_date)
